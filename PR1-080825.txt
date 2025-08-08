@@ -23,6 +23,6 @@ All operations with only two operands and only numbers.
 2. Test:
 Prepare tests in python standard for eval
 
-3. Branch:
+3. manage pull request:
 use Github standard to propose at completion PR for revision/merging.
 
