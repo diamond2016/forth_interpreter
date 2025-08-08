@@ -1,0 +1,28 @@
+### PR - Manage state in Json file for Forth Interpreter
+
+1. Descrizione:
+target of pull request is a refactoring and to add new functionalities
+
+a. produce load_forth_dict() and save_forth_dict() to allow:
+- loading state from Json file to forth stack (list)
+- and saving state of forth stack to Json file
+
+Example format of forth_dict.json (Number or Word):
+{"words": [
+    {"Number": "12"},
+    {"Word": "DUP}"
+    {"Number: "1""}
+    ]
+}
+
+When loaded in stack word_stack, only values (12, "DUP" ecc) are loaded. For sake of simplicity values are all in string format.
+
+b. refactor enter, to be renamed eval(), to manager operations: +,-,*,/,mod.
+All operations with only two operands and only numbers.
+
+2. Test:
+Prepare tests in python standard for eval
+
+3. Branch:
+use Github standard to propose at completion PR for revision/merging.
+
