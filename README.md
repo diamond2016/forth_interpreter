@@ -3,7 +3,7 @@
 
 This challenge is to build your own Forth-like interpreter able at writing a program to generate at least:
 - Fibonacci sequence
-. FizzBuzz
+- FizzBuzz
 
 Architecture:
 - This is a web application, language of programming is Python 
@@ -30,7 +30,7 @@ It uses a Tk window with a title, and a canvas with grid 2x3:
 *stack*	stack_var
 *input*	prompt_text input_var
 *message* message_var
-
+```
 +------------------------------------------------------+
 .                                                      .
 .            Forth interrpreter                        .
@@ -44,6 +44,7 @@ It uses a Tk window with a title, and a canvas with grid 2x3:
 .                                                      .
 .                                                      .
 +------------------------------------------------------+ 
+```
 stack_var and message_var are label with text variables, 
 input is divided in prompt_text (label) and prompt_var (entry) 
 
