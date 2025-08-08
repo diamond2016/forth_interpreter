@@ -24,14 +24,7 @@ def peek_number():
 def pop_integer():
     intval = peek_number()
     if intval != -1:
-        word_stack.pop()   [
-    {
-        "type": "command",
-        "details": {
-            "key": "git.openMergeEditor"
-        }
-    }
-]
+        word_stack.pop()   
     return intval
  
 # ---------------------------- FUNCTION: ENTER -----------------------#
@@ -40,7 +33,7 @@ def enter():
     {
         "type": "command",
         "details": {
-            "key": "git.openMergeEditor"
+            "key": "git.openMermaigeEditor"
         }
     }
 ].get().strip()
@@ -53,7 +46,7 @@ def enter():
         op2 = pop_integer()
         if (op1  == -1):
             return
-        result = op1 + op2
+        result = op1 + op2mai
         word_stack.append(str(result))
     else:
         word_stack.append(command)
