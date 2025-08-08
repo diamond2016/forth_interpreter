@@ -1,15 +1,14 @@
 ### Forth Interpreter
 ### From: Coding Challenge #95
-This challenge is to build your oen interpreter for a Fort-like programming language.
 
-This challenge is to build your own Forth-like interpreter sufficient for writing a program to generate at least:
+This challenge is to build your own Forth-like interpreter able at writing a program to generate at least:
 - Fibonacci sequence
 . FizzBuzz
 
 Architecture:
 - This is a web application, language of programming is Python 
 - Gui is rendered with Tkinter library
-- The data management is simple, system pesists data into JSON files to write/read state of Forth session to the interpreter
+- The data management is simple, system persists data into JSON files to write/read state of Forth session to the interpreter
 
 General Instructions:  
 When generating code, please follow the existing coding style.
@@ -26,7 +25,7 @@ Avoid introducing new external dependencies unless absolutely necessary.
 This is the first iteration of implementation. 
 Prepare interface and how to manage future implementations.
 The layout of web app is:
-The app has width=600 and height=400, background = light cyan text in black. 
+The app has width=600 and height=400, background=light cyan text in black. 
 It uses a Tk window with a title, and a canvas with grid 2x3:
 *stack*	stack_var
 *input*	prompt_text input_var
@@ -55,7 +54,7 @@ At step one, only "bye" is accepted which exists application, other inputs are i
 In case of errors, prompt will write "err>" and message_text will prompt error message, but not at this stage (blank). 
 
 *Step Two*:
-In this step goal is to handle user entering *integers* and some basic math operations. 
+In this step the goal is to handle user entering *integers* and some basic math operations. 
 To enable that you need to handle entering an integer. The integer should the be pushed
 onto the interpreter's stack. 
 

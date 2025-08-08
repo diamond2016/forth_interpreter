@@ -29,14 +29,7 @@ def pop_integer():
  
 # ---------------------------- FUNCTION: ENTER -----------------------#
 def enter():
-    command = input_text[
-    {
-        "type": "command",
-        "details": {
-            "key": "git.openMermaigeEditor"
-        }
-    }
-].get().strip()
+    command = input_text.get().strip()
     if command == "bye":
         exit(0)
     elif command == "+":
