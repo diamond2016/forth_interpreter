@@ -46,7 +46,7 @@ def enter():
         op2 = pop_integer()
         if (op1  == -1):
             return
-        result = op1 + op2mai
+        result = op1 + op2
         word_stack.append(str(result))
     else:
         word_stack.append(command)
@@ -56,14 +56,7 @@ def enter():
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 def write_message():
     data_message_var.set(data_message_text)
-[
-    {
-        "type": "command",
-        "details": {
-            "key": "git.openMergeEditor"
-        }
-    }
-]
+
 # ---------------------------- FUNCTION: WRITE_STACK -----------------#
 def write_stack():
     data_stack_text = str(word_stack)
