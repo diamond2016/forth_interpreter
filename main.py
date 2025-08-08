@@ -8,25 +8,7 @@ import os
 #BACKGROUND_COLOR = "#B1DDC6"
 BACKGROUND_COLOR = "lightcyan"
 
-# ---------------------------- FUNCTION: LOAD_WORD_DICT -----------------------#
-def load_word_dict_list():
-    #se esiste file_name="word_to_learn.json" altrimenti "french_word.json" (in data)
-    if os.path.exists("data/words_to_learn.json"):
-        file_name = "data/words_to_learn.json"
-    else:
-        file_name = "data/french_words.json"
-    
-    with open(file_name,"r") as file:
-        dict = json.load(file)
-        return dict["words"]
 
-# ---------------------------- FUNCTION: WRITE_WORD_DICT -----------------------#
-def write_word_dict_list(file_name):
-    with open(file_name,"w") as file:
-        new_dict = {"words": word_dict_list}
-        json.dump(new_dict, file)
-        print(f"creato nuovo file parole {file_name}")
- 
 # ---------------------------- FUNCTION: PEEK_NUMBER -----------------------#
 def peek_number():
     l = len(word_stack)
@@ -42,12 +24,26 @@ def peek_number():
 def pop_integer():
     intval = peek_number()
     if intval != -1:
-        word_stack.pop()   
+        word_stack.pop()   [
+    {
+        "type": "command",
+        "details": {
+            "key": "git.openMergeEditor"
+        }
+    }
+]
     return intval
  
 # ---------------------------- FUNCTION: ENTER -----------------------#
 def enter():
-    command = input_text.get().strip()
+    command = input_text[
+    {
+        "type": "command",
+        "details": {
+            "key": "git.openMergeEditor"
+        }
+    }
+].get().strip()
     if command == "bye":
         exit(0)
     elif command == "+":
@@ -67,7 +63,14 @@ def enter():
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 def write_message():
     data_message_var.set(data_message_text)
-
+[
+    {
+        "type": "command",
+        "details": {
+            "key": "git.openMergeEditor"
+        }
+    }
+]
 # ---------------------------- FUNCTION: WRITE_STACK -----------------#
 def write_stack():
     data_stack_text = str(word_stack)
@@ -96,7 +99,7 @@ data_stack_var.set(data_stack_text)
 data_message_var.set(data_message_text)
 data_prompt_var.set(data_prompt_text)
 
-
+# canvas
 canvas = Canvas(window, height=300, width=400, bg=BACKGROUND_COLOR, highlightthickness=0)
 canvas.grid(row=0, column=0, columnspan=2, padx=20,pady=20)
 
