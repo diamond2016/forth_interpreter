@@ -30,6 +30,7 @@ It uses a Tk window with a title, and a canvas with grid 2x3:
 *stack*	stack_var
 *input*	prompt_text input_var
 *message* message_var
+
 ![home_forth_interpreter](forth.png)
 ```
 +------------------------------------------------------+
