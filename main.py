@@ -5,8 +5,8 @@ import json
 import os
 
 
-#BACKGROUND_COLOR = "#B1DDC6"
-BACKGROUND_COLOR = "lightcyan"
+BACKGROUND_COLOR = "#B1DDC6"
+#BACKGROUND_COLOR = "lightcyan"
 
 # ---------------------------- FUNCTION: LOAD/WRITE STACK STATE ----------------#
 # json file {"words:" [{"id:": 9, "value": "val"}, ...]} 
@@ -46,21 +46,48 @@ def pop_integer():
     if intval != -1:
         word_stack.pop()   
     return intval
- 
+# ---------------------------- FUNCTION: EVAL -----------------------#
+def eval(op1, op2, command):
+    if command == "+":
+        return op1 + op2
+    elif command == "-":
+        return op1 - op2
+    elif command == "*":
+        return op1 * op2
+    elif command == "/":
+        if op2 == 0:
+            messagebox.showerror("Error", "Division by zero is not allowed.")
+            return -1
+        return op1 // op2  # Integer division
+    elif command == "mod":
+        if op2 == 0:
+            messagebox.showerror("Error", "Division by zero is not allowed.")
+            return -1
+        return op1 % op2
+    else:
+        messagebox.showerror("Error", "Unknown operation.")
+        return -1
+ # ---------------------------- FUNCTION: POP_NUMBER ------------------------#
+def pop_integer():
+    intval = peek_number()
+    if intval != -1:
+        word_stack.pop()   
+    return intval
 # ---------------------------- FUNCTION: ENTER -----------------------#
 def enter():
     command = input_text.get().strip()
     if command == "bye":
         exit(0)
-    elif command == "+":
+    elif command == "+" or command == "-" or command == "*" or command == "/" or command =="mod":
         op1 = pop_integer()
         if (op1  == -1):
             return
         op2 = pop_integer()
         if (op1  == -1):
             return
-        result = op1 + op2
-        word_stack.append(str(result))
+        result = eval (op1,op2, command)
+        if command != -1:
+           word_stack.append(str(result))
     else:
         word_stack.append(command)
     write_stack()
