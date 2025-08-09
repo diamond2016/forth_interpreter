@@ -8,7 +8,27 @@ import os
 #BACKGROUND_COLOR = "#B1DDC6"
 BACKGROUND_COLOR = "lightcyan"
 
-
+# ---------------------------- FUNCTION: LOAD/WRITE STACK STATE ----------------#
+# json file {"words:" [{"id:": 9, "value": "val"}, ...]} 
+def load_forth_dict():
+    global word_stack
+    if os.path.exists("forth_dict.json"):
+        with open("forth_dict.json", "r") as file:
+            dict = json.load(file)
+            myList = dict["words"]
+            word_stack = [myList[i]["value"] for i in range(len(myList))]
+    
+def save_forth_dict():
+    global word_stack
+    with open("forth_dict.json", "w") as file:
+        forth_dict = {"words": []}
+        for i in range(len(word_stack)):
+            word = {"id": i, "value": word_stack[i]}
+            forth_dict["words"].append(word)
+        json.dump(forth_dict, file)
+    print("Forth dictionary saved.")
+    messagebox.showinfo("Save", "Forth dictionary saved successfully.")
+  
 # ---------------------------- FUNCTION: PEEK_NUMBER -----------------------#
 def peek_number():
     l = len(word_stack)
@@ -61,6 +81,7 @@ def write_prompt():
 
 # ---------------------------- UI SETUP ------------------------------- #
 word_stack = []
+load_forth_dict()  # Load the initial stack from the JSON file
 
 # --------------------------- MAIN -------------------------------------#
 window = Tk()
@@ -90,7 +111,7 @@ input_label.grid(row=1,column=0)
 message_label = Label(canvas, text="message", fg="black", bg=BACKGROUND_COLOR)
 message_label.grid(row=2,column=0)
 
-#stack_text = language_text = canvas.create_text(100,50, anchor="center", font=("Ariel", 30, "italic"), text=data_stack_text, fill="black")
+
 stack_text = Label(canvas, font=("Ariel", 14), textvar=data_stack_var, fg="black", bg=BACKGROUND_COLOR)
 stack_text.grid(row=0,column=1,columnspan=2)
 prompt_text = Label(canvas, font=("Ariel", 16, "bold"), textvar=data_prompt_var, fg="black", bg=BACKGROUND_COLOR)
@@ -100,8 +121,10 @@ input_text.grid(row=1,column=2)
 message_text = Label(canvas,font=("Ariel", 14), textvar=data_message_var, fg="black", bg=BACKGROUND_COLOR)
 message_text.grid(row=2,column=1)
 
-#Button
+#Buttons
 button_command = Button(canvas, text="<Enter command input>", highlightthickness=0, command=enter)
 button_command.grid(row=2, column=1, columnspan=2)
+button_command = Button(canvas, text="<Save stack>", highlightthickness=0, command=save_forth_dict)
+button_command.grid(row=3, column=2)
 
 window.mainloop()
