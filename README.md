@@ -30,6 +30,7 @@ It uses a Tk window with a title, and a canvas with grid 2x3:
 *stack*	stack_var
 *input*	prompt_text input_var
 *message* message_var
+![home_forth_interpreter](forth.png)
 ```
 +------------------------------------------------------+
 .                                                      .
@@ -60,3 +61,11 @@ To enable that you need to handle entering an integer. The integer should the be
 onto the interpreter's stack. 
 
 The implementation uses a list as stack.
+
+*Step Three*
+In this step your goal is to add support for several Forth words used to manipulate the stack: dup, drop, rot, over and swap:
+- swap ( n1 n2 -- n2 n1 ) Swaps the top two elements on the stack
+- dup ( n -- n n ) Duplicates the top element on the stack
+- over ( n1 n2 -- n1 n2 n1 ) Duplicates the second from top element and pushes it on to the top of the stack
+- rot ( n1 n2 n3 -- n2 n3 n1 ) Rotates the top three elements on the stack
+- drop ( n1 -- ) Pops the top element off the stack.
