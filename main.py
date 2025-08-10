@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import messagebox
-import random
 import json
 import os
 
@@ -14,9 +13,9 @@ def load_forth_dict():
     global word_stack
     if os.path.exists("forth_dict.json"):
         with open("forth_dict.json", "r") as file:
-            dict = json.load(file)
-            myList = dict["words"]
-            word_stack = [myList[i]["value"] for i in range(len(myList))]
+            d = json.load(file)
+            my_list = d["words"]
+            word_stack = [my_list[i]["value"] for i in range(len(my_list))]
     
 def save_forth_dict():
     global word_stack
@@ -35,19 +34,19 @@ def peek_number():
     if l == 0:
         return -1
     try:
-        intval = int(word_stack[l -1])
+        int_val = int(word_stack[l -1])
     except ValueError:
         return -1
     else:
-        return intval
+        return int_val
 # ---------------------------- FUNCTION: POP_NUMBER ------------------------#
-def pop_integer():
-    intval = peek_number()
-    if intval != -1:
+def pop_number():
+    int_val = peek_number()
+    if int_val != -1:
         word_stack.pop()   
-    return intval
+    return int_val
 # ---------------------------- FUNCTION: EVAL -----------------------#
-def eval(op1, op2, command):
+def op_eval(op1, op2, command):
     if command == "+":
         return op1 + op2
     elif command == "-":
@@ -67,25 +66,21 @@ def eval(op1, op2, command):
     else:
         messagebox.showerror("Error", "Unknown operation.")
         return -1
- # ---------------------------- FUNCTION: POP_NUMBER ------------------------#
-def pop_integer():
-    intval = peek_number()
-    if intval != -1:
-        word_stack.pop()   
-    return intval
+
 # ---------------------------- FUNCTION: ENTER -----------------------#
 def enter():
+    global word_stack
     command = input_text.get().strip()
     if command == "bye":
         exit(0)
     elif command == "+" or command == "-" or command == "*" or command == "/" or command =="mod":
-        op1 = pop_integer()
-        if (op1  == -1):
+        op1 = pop_number()
+        if op1  == -1:
             return
-        op2 = pop_integer()
-        if (op1  == -1):
+        op2 = pop_number()
+        if op2  == -1:
             return
-        result = eval (op1,op2, command)
+        result = op_eval (op1,op2, command)
         if command != -1:
            word_stack.append(str(result))
     else:
@@ -95,15 +90,18 @@ def enter():
 
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 def write_message():
+    global data_message_text
     data_message_var.set(data_message_text)
 
 # ---------------------------- FUNCTION: WRITE_STACK -----------------#
 def write_stack():
+    global data_stack_text
     data_stack_text = str(word_stack)
     data_stack_var.set(data_stack_text)
-    
+
 # ---------------------------- FUNCTION: WRITE_PROMPT -----------------#
 def write_prompt():
+    global data_prompt_text
     data_prompt_var.set(data_prompt_text)
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -139,18 +137,18 @@ message_label = Label(canvas, text="message", fg="black", bg=BACKGROUND_COLOR)
 message_label.grid(row=2,column=0)
 
 
-stack_text = Label(canvas, font=("Ariel", 14), textvar=data_stack_var, fg="black", bg=BACKGROUND_COLOR)
+stack_text = Label(canvas, font=("Ariel", 14), textvariable=data_stack_var, fg="black", bg=BACKGROUND_COLOR)
 stack_text.grid(row=0,column=1,columnspan=2)
-prompt_text = Label(canvas, font=("Ariel", 16, "bold"), textvar=data_prompt_var, fg="black", bg=BACKGROUND_COLOR)
+prompt_text = Label(canvas, font=("Ariel", 16, "bold"), textvariable=data_prompt_var, fg="black", bg=BACKGROUND_COLOR)
 prompt_text.grid(row=1,column=1)
-input_text = Entry(canvas, font=("Ariel", 16, "italic"), text="input text", fg="black", bg=BACKGROUND_COLOR)
+input_text = Entry(canvas, font=("Ariel", 16, "italic"), fg="black", bg=BACKGROUND_COLOR)
 input_text.grid(row=1,column=2)
-message_text = Label(canvas,font=("Ariel", 14), textvar=data_message_var, fg="black", bg=BACKGROUND_COLOR)
+message_text = Label(canvas,font=("Ariel", 14), textvariable=data_message_var, fg="black", bg=BACKGROUND_COLOR)
 message_text.grid(row=2,column=1)
 
 #Buttons
-button_command = Button(canvas, text="<Enter command input>", highlightthickness=0, command=enter)
-button_command.grid(row=2, column=1, columnspan=2)
+button_command = Button(canvas, text="<Enter word>", highlightthickness=0, command=enter)
+button_command.grid(row=3, column=1)
 button_command = Button(canvas, text="<Save stack>", highlightthickness=0, command=save_forth_dict)
 button_command.grid(row=3, column=2)
 
