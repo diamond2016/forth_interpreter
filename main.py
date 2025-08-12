@@ -91,27 +91,56 @@ def op_eval(op1, op2, command):
     else:
         messagebox.showerror("Error", "Unknown operation.")
         return -1
-
+# ---------------------------- FUNCTION: MANAGE_COMMANDS -----------------------#
+def manage_commands(command):
+    global word_stack
+    if command == "+" or command == "-" or command == "*" or command == "/" or command =="mod":
+        op1 = pop_number()
+        op2 = pop_number()
+        if op1 != -1 and op2  != -1:
+            result = op_eval (op1,op2, command)
+            word_stack.append(str(result))
+            write_stack()
+            return  0
+        else:
+            return -1
+    elif command == "dup":
+        if peek_number() != -1:
+            word_stack.append(word_stack[-1])
+        else:
+            messagebox.showerror("Error", "Stack is empty, cannot duplicate.")
+    elif command == "drop":
+        if peek_number() != -1:
+            word_stack.pop()
+        else:
+            messagebox.showerror("Error", "Stack is empty, cannot drop.")
+    elif command == "swap":
+        if len(word_stack) < 2:
+            messagebox.showerror("Error", "Not enough elements to swap.")
+        else:
+            word_stack[-1], word_stack[-2] = word_stack[-2], word_stack[-1]
+    elif command == "over":
+        if len(word_stack) < 2:
+            messagebox.showerror("Error", "Not enough elements to over.")
+        else:
+            word_stack.append(word_stack[-2])
+    elif command == "rot":
+        if len(word_stack) < 3:
+            messagebox.showerror("Error", "Not enough elements to rotate.")
+        else:
+            word_stack.append(word_stack.pop(-3))
+    elif command == "bye":
+        save_dicts()
+        window.quit()
 # ---------------------------- FUNCTION: ENTER -----------------------#
 def enter():
     global word_stack
-    command = input_text.get().strip()
-    if command == "bye":
-        exit(0)
-    elif command == "+" or command == "-" or command == "*" or command == "/" or command =="mod":
-        op1 = pop_number()
-        if op1  == -1:
-            return
-        op2 = pop_number()
-        if op2  == -1:
-            return
-        result = op_eval (op1,op2, command)
-        if command != -1:
-           word_stack.append(str(result))
-    else:
-        word_stack.append(command)
-    write_stack()
-    input_text.delete(0, END)
+    word = input_text.get().strip()
+    if word in word_cmd:
+        result = manage_commands(word)
+        if result != -1:
+            write_stack()   
+            input_text.delete(0, END)
 
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 def write_message():
