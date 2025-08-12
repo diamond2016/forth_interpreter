@@ -6,6 +6,7 @@ import os
 
 BACKGROUND_COLOR = "#B1DDC6"
 #BACKGROUND_COLOR = "lightcyan"
+DEFAULT_CMDS = ["+", "-", "*", "/", "mod", "dup", "drop", "swap", "over", "rot", "bye"]
 
 # ---------------------------- FUNCTION: LOAD/WRITE STACK STATE ----------------#
 # json file {"words:" [{"id:": 9, "value": "val"}, ...]} 
@@ -25,9 +26,33 @@ def save_forth_dict():
             word = {"id": i, "value": word_stack[i]}
             forth_dict["words"].append(word)
         json.dump(forth_dict, file)
-    print("Forth dictionary saved.")
-    messagebox.showinfo("Save", "Forth dictionary saved successfully.")
-  
+   
+
+ # ---------------------------- FUNCTION: LOAD/WRITE FORTH CMD ----------------#
+# json file {"cmds:" [{"id:": 0, "value": "+"}, ...]} 
+def load_forth_cmd_dict():
+    global word_cmd
+    if os.path.exists("forth_cmd.json"):
+        with open("forth_cmd_dict.json", "r") as file:
+            d = json.load(file)
+            my_list = d["cmds"]
+            word_cmd = [my_list[i]["value"] for i in range(len(my_list))]
+            for cmd in DEFAULT_CMDS:
+                if cmd not in word_cmd:
+                    word_cmd.append(cmd)
+            word_cmd.sort()  # Sort the commands alphabetically 
+    else:
+        word_cmd = DEFAULT_CMDS.copy()  # Initialize with default commands if file does not exist
+        
+def save_forth_cmd_dict():
+    global word_cmd
+    with open("forth_cmd_dict.json", "w") as file:
+        forth_cmd_dict = {"cmds": []}
+        for i in range(len(word_cmd)):
+            word = {"id": i, "value": word_cmd[i]}
+            forth_cmd_dict["cmds"].append(word)
+        json.dump(forth_cmd_dict, file)
+
 # ---------------------------- FUNCTION: PEEK_NUMBER -----------------------#
 def peek_number():
     l = len(word_stack)
@@ -99,6 +124,11 @@ def write_stack():
     data_stack_text = str(word_stack)
     data_stack_var.set(data_stack_text)
 
+# ---------------------------- FUNCTION: SAVE_DICTS -----------------#
+def save_dicts():
+    save_forth_dict()
+    save_forth_cmd_dict()
+    messagebox.showinfo("Save", "Forth state saved successfully.")
 # ---------------------------- FUNCTION: WRITE_PROMPT -----------------#
 def write_prompt():
     global data_prompt_text
@@ -107,6 +137,8 @@ def write_prompt():
 # ---------------------------- UI SETUP ------------------------------- #
 word_stack = []
 load_forth_dict()  # Load the initial stack from the JSON file
+word_cmd = []
+load_forth_cmd_dict()  # Load the initial commands from the JSON file
 
 # --------------------------- MAIN -------------------------------------#
 window = Tk()
@@ -149,7 +181,7 @@ message_text.grid(row=2,column=1)
 #Buttons
 button_command = Button(canvas, text="<Enter word>", highlightthickness=0, command=enter)
 button_command.grid(row=3, column=1)
-button_command = Button(canvas, text="<Save stack>", highlightthickness=0, command=save_forth_dict)
+button_command = Button(canvas, text="<Save state>", highlightthickness=0, command=save_dicts)
 button_command.grid(row=3, column=2)
 
 window.mainloop()
