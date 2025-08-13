@@ -5,7 +5,6 @@ import os
 
 
 BACKGROUND_COLOR = "#B1DDC6"
-#BACKGROUND_COLOR = "lightcyan"
 DEFAULT_CMDS = ["+", "-", "*", "/", "mod", "dup", "drop", "swap", "over", "rot", "bye"]
 
 # ---------------------------- FUNCTION: LOAD/WRITE STACK STATE ----------------#
@@ -147,6 +146,7 @@ def enter():
     else:
         word_stack.append(word)   
     write_stack()
+    input_text.delete(0, END)
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 def write_message():
     global data_message_text
