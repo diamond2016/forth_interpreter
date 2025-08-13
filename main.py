@@ -100,18 +100,19 @@ def manage_commands(command):
         if op1 != -1 and op2  != -1:
             result = op_eval (op1,op2, command)
             word_stack.append(str(result))
-            write_stack()
             return  0
         else:
             return -1
     elif command == "dup":
         if peek_number() != -1:
             word_stack.append(word_stack[-1])
+            return 0
         else:
             messagebox.showerror("Error", "Stack is empty, cannot duplicate.")
     elif command == "drop":
         if peek_number() != -1:
             word_stack.pop()
+            return 0
         else:
             messagebox.showerror("Error", "Stack is empty, cannot drop.")
     elif command == "swap":
@@ -119,16 +120,19 @@ def manage_commands(command):
             messagebox.showerror("Error", "Not enough elements to swap.")
         else:
             word_stack[-1], word_stack[-2] = word_stack[-2], word_stack[-1]
+            return 0
     elif command == "over":
         if len(word_stack) < 2:
             messagebox.showerror("Error", "Not enough elements to over.")
         else:
             word_stack.append(word_stack[-2])
+            return 0
     elif command == "rot":
         if len(word_stack) < 3:
             messagebox.showerror("Error", "Not enough elements to rotate.")
         else:
             word_stack.append(word_stack.pop(-3))
+            return 0
     elif command == "bye":
         save_dicts()
         window.quit()
@@ -138,10 +142,11 @@ def enter():
     word = input_text.get().strip()
     if word in word_cmd:
         result = manage_commands(word)
-        if result != -1:
-            write_stack()   
-            input_text.delete(0, END)
-
+        if result == -1:
+            return
+    else:
+        word_stack.append(word)   
+    write_stack()
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 def write_message():
     global data_message_text
