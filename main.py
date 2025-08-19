@@ -6,7 +6,7 @@ import os
 
 BACKGROUND_COLOR = "#B1DDC6"
 DEFAULT_CMDS = ["+", "-", "*", "/", "mod",
-                "dup", "drop", "swap", "over", "rot", ".", "emit", "bye"]
+                "dup", "drop", "swap", "over", "rot", ".", "emit", "cr", ".\"","bye"]
 
 # ---------------------------- FUNCTION: LOAD/WRITE STACK STATE ----------------#
 # json file {"words:" [{"id:": 9, "value": "val"}, ...]}
@@ -151,15 +151,23 @@ def manage_commands(command):
             return 0
     elif command == ".":
         if peek_number() != -1:
-            data_message_text = word_stack.pop()
+            data_message_text = data_message_text + str(word_stack.pop())
             write_message()
             return 0
     elif command == "emit":
         if peek_number() != -1:
             ch = pop_number()
-            data_message_text = chr(ch)
+            data_message_text = data_message_text + chr(ch)
             write_message()
             return 0
+    elif command == "cr":
+        if peek_number() != -1:
+            data_message_text = data_message_text + "'\n'"
+            write_message()
+            return 0
+    elif command == ".\"":
+        # TODO
+        return 0
     elif command == "bye":
         save_dicts()
         window.quit()
@@ -168,10 +176,7 @@ def manage_commands(command):
 
 def enter():
     global word_stack
-    global data_message_text
-    
-    data_message_text = ""
-    write_message()
+
     word = input_text.get().strip()
     if word in word_cmd:
         result = manage_commands(word)
@@ -186,6 +191,7 @@ def enter():
 
 def write_message():
     global data_message_text
+    global data_message_var
     data_message_var.set(data_message_text)
 
 # ---------------------------- FUNCTION: WRITE_STACK -----------------#
@@ -244,7 +250,7 @@ stack_label.grid(row=0, column=0)
 input_label = Label(canvas, text="input", fg="black", bg=BACKGROUND_COLOR)
 input_label.grid(row=1, column=0)
 message_label = Label(canvas, text="message", fg="black", bg=BACKGROUND_COLOR)
-message_label.grid(row=2, column=0)
+message_label.grid(row=2, column=0, rowspan=2)
 
 
 stack_text = Label(canvas, font=("Ariel", 14),
@@ -263,9 +269,9 @@ message_text.grid(row=2, column=1)
 # Buttons
 button_command = Button(canvas, text="<Enter word>",
                         highlightthickness=0, command=enter)
-button_command.grid(row=3, column=1)
+button_command.grid(row=4, column=1)
 button_command = Button(canvas, text="<Save state>",
                         highlightthickness=0, command=save_dicts)
-button_command.grid(row=3, column=2)
+button_command.grid(row=4, column=2)
 
 window.mainloop()
