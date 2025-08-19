@@ -72,4 +72,21 @@ In this step your goal is to add support for several Forth words used to manipul
 - drop ( n1 -- ) Pops the top element off the stack.
 
 *Step Four*
-todo
+
+In this step your goal is to implement support for four new words:
+
+1. `.`	( n1 -- )	Prints and pops the top of the stack
+1. `emit`	( n1 -- )	Prints the top of the stack as n ASCII character and pops the top of the stack
+1. `cr`	( -- )	Prints a newline
+1. `."`	( -- )	Prints the string from after the space to the ending quote, i.e. ." hello" prints "hello"
+
+Using them looks like this:
+```forth
+ok> 5 . cr
+5
+ok> 78 72 79 74 emit emit emit emit cr
+JOHN
+ok> ." Hello, Coding Challenges" cr
+Hello, Coding Challenges
+ok>
+```

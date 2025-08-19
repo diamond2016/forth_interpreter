@@ -6,7 +6,7 @@ import os
 
 BACKGROUND_COLOR = "#B1DDC6"
 DEFAULT_CMDS = ["+", "-", "*", "/", "mod",
-                "dup", "drop", "swap", "over", "rot", "bye"]
+                "dup", "drop", "swap", "over", "rot", ".", "emit", "bye"]
 
 # ---------------------------- FUNCTION: LOAD/WRITE STACK STATE ----------------#
 # json file {"words:" [{"id:": 9, "value": "val"}, ...]}
@@ -108,12 +108,14 @@ def op_eval(op1, op2, command):
 
 def manage_commands(command):
     global word_stack
+    global data_message_text
+
     if command == "+" or command == "-" or command == "*" or command == "/" or command == "mod":
         op1 = pop_number()
         op2 = pop_number()
         if op1 != -1 and op2 != -1:
             result = op_eval(op1, op2, command)
-            word_stack.append(str(result))
+            word_stack.append(result)
             return 0
         else:
             return -1
@@ -147,6 +149,17 @@ def manage_commands(command):
         else:
             word_stack.append(word_stack.pop(-3))
             return 0
+    elif command == ".":
+        if peek_number() != -1:
+            data_message_text = word_stack.pop()
+            write_message()
+            return 0
+    elif command == "emit":
+        if peek_number() != -1:
+            ch = pop_number()
+            data_message_text = chr(ch)
+            write_message()
+            return 0
     elif command == "bye":
         save_dicts()
         window.quit()
@@ -155,13 +168,17 @@ def manage_commands(command):
 
 def enter():
     global word_stack
+    global data_message_text
+    
+    data_message_text = ""
+    write_message()
     word = input_text.get().strip()
     if word in word_cmd:
         result = manage_commands(word)
         if result == -1:
             return
     else:
-        word_stack.append(word)
+        word_stack.append(int(word))
     write_stack()
     input_text.delete(0, END)
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
