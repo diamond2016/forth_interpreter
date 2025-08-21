@@ -189,12 +189,13 @@ def enter():
 
         if word in word_cmd:
             result = manage_commands(word, next_word)
+            write_stack()
             if result == -1:
                 return
         else:
-            if type(word) is int:
+            if word.isdigit():
                 word_stack.append(int(word))
-        write_stack()
+                write_stack()
     input_text.delete(0, END)
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 
