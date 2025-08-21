@@ -106,7 +106,7 @@ def op_eval(op1, op2, command):
 # ---------------------------- FUNCTION: MANAGE_COMMANDS -----------------------#
 
 
-def manage_commands(command):
+def manage_commands(command, next_command):
     global word_stack
     global data_message_text
 
@@ -119,7 +119,7 @@ def manage_commands(command):
             return 0
         else:
             return -1
-    elif command == "dup":
+    elif command == "dup": 
         if peek_number() != -1:
             word_stack.append(word_stack[-1])
             return 0
@@ -130,7 +130,7 @@ def manage_commands(command):
             word_stack.pop()
             return 0
         else:
-            messagebox.showerror("Error", "Stack is empty, cannot drop.")
+            messagebox.showerror("Error", "Stack is empty, cannot drop.") 
     elif command == "swap":
         if len(word_stack) < 2:
             messagebox.showerror("Error", "Not enough elements to swap.")
@@ -166,7 +166,9 @@ def manage_commands(command):
             write_message()
             return 0
     elif command == ".\"":
-        # TODO
+        print(next_command)
+        data_message_text = data_message_text + next_command[0:-1]
+        write_message()
         return 0
     elif command == "bye":
         save_dicts()
@@ -177,14 +179,22 @@ def manage_commands(command):
 def enter():
     global word_stack
 
-    word = input_text.get().strip()
-    if word in word_cmd:
-        result = manage_commands(word)
-        if result == -1:
-            return
-    else:
-        word_stack.append(int(word))
-    write_stack()
+    words = input_text.get().strip().split()
+    i = 0
+    for i in range (len(words)):
+        word = words[i]
+        next_word = ""
+        if i+1 < len(words):
+            next_word = words[i+1]
+
+        if word in word_cmd:
+            result = manage_commands(word, next_word)
+            if result == -1:
+                return
+        else:
+            if type(word) is int:
+                word_stack.append(int(word))
+        write_stack()
     input_text.delete(0, END)
 # ---------------------------- FUNCTION: WRITE_MESSAGE-----------------#
 
